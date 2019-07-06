@@ -1,5 +1,5 @@
 //==============================================================================================================================
-// Requirements
+// Dependencies
 //==============================================================================================================================
 
 var Word = require("./Word.js");
@@ -14,17 +14,12 @@ var colors = require('colors');
 
 var attemptsLeft = 20;
 
-
-var letterArray;
 var wordToGuess;
 var wLength = 0;
 var wordToGuessByLetter = [];
 
 var userGuess = "";
 var checkGuess;
-
-
-//console.log("attemptsLeft: " + attemptsLeft);
 
 
 //==============================================================================================================================
@@ -58,9 +53,12 @@ function selectWord() {
 
     wordToGuessByLetter = wordToGuess.split("");
     
-    console.log("wordToGuess: " + wordToGuess);
+    //console.log("wordToGuess: " + wordToGuess);
 }
 
+//==============================================================================================================================
+// Run Word and Letter Dependencies
+//==============================================================================================================================
 
 selectWord();
 var newWord = new Word;
@@ -69,86 +67,57 @@ checkGuess = newWord.checkGuess(userGuess);
 wordToDisplay = newWord.wordToDisplay();
 
 
-
 //==============================================================================================================================
-// GAME LOGIC
-//==============================================================================================================================
-
-    playGame()
-
-
-    
-
-
-
-
-    function playGame() {
-
-        console.log("\nI'm thinking of a President...can you guess which one?".green);
-        console.log("Who am I?: ".green + wordToDisplay);
-
-      inquirer
-        .prompt([
-            {
-            type: "input",
-            message: "\n You have "+ attemptsLeft + " guess(es). Guess a letter!",
-            name: "guess"
-            },
-        ])
-        .then(function(inquirerResponse) {
-
-            var userGuessRaw = inquirerResponse.guess;
-            userGuess = userGuessRaw.toUpperCase();          
-            checkGuess = newWord.checkGuess(userGuess);
-            wordToDisplay = newWord.wordToDisplay();
-           
-           if (checkGuess === "Correct") {
-               console.log("\nYour guess is correct!".green);
-           }
-           else {
-               console.log("\nTry Again\n".red);
-           }
-
-           attemptsLeft--;
-
-            if(wordToGuess === wordToDisplay){
-                console.log("\nYou won! The answer is: \n");
-                console.log(wordToGuess.green);
-            }
-            else if(attemptsLeft > 0) {
-                playGame();
-           }
-           else{
-                console.log("\nYou are out of guesses. The answer is: \n");
-                console.log(wordToGuess.green);
-           }
-
-        });
-
-    }
-
-
-    attemptsLeft = 12;
-    userGuess = "";
-
-//}
-
-
-//==============================================================================================================================
-// MAIN LOGIC
+// Play Game
 //==============================================================================================================================
 
+playGame()
 
-//function startGame() {
-//    selectWord();
-//    Word.newWord(wordToGuessByLetter);
-//    Word.checkGuess(userGuess);
-//    playGame();
-//}
+function playGame() {
+
+    console.log("\nI'm thinking of a President...can you guess which one?".green);
+    console.log("Who am I?: ".green + wordToDisplay);
+
+    inquirer
+    .prompt([
+        {
+        type: "input",
+        message: "\n You have "+ attemptsLeft + " guess(es). Guess a letter!",
+        name: "guess"
+        },
+    ])
+    .then(function(inquirerResponse) {
+
+        var userGuessRaw = inquirerResponse.guess;
+        userGuess = userGuessRaw.toUpperCase();          
+        checkGuess = newWord.checkGuess(userGuess);
+        wordToDisplay = newWord.wordToDisplay();
+        
+        if (checkGuess === "Correct") {
+            console.log("\nYour guess is correct!".green);
+        }
+        else {
+            console.log("\nTry Again\n".red);
+        }
+
+        attemptsLeft--;
+
+        if(wordToGuess === wordToDisplay){
+            console.log("\nYou won! The answer is: \n");
+            console.log(wordToGuess.green);
+        }
+        else if(attemptsLeft > 0) {
+            playGame();
+        }
+        else{
+            console.log("\nYou are out of guesses. The answer is: \n");
+            console.log(wordToGuess.green);
+        }
+
+    });
+
+}
 
 
-//==============================================================================================================================
-// START GAME
-//==============================================================================================================================
-
-//startGame();
+attemptsLeft = 12;
+userGuess = "";
